@@ -4,7 +4,7 @@
 # of spearmint-lite.  This runs the braninpy experiment automatically
 # within the framework of spearmint lite.  It will iteratively get 
 # spearmint-lite to propose 3 new experiments, fill in the results, and repeat.
-for i in {1..50}
+for i in {1..2} #was 50 before
 do
     cd ..
     for i in {1..2}

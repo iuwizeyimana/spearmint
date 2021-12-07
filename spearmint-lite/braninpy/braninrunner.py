@@ -15,7 +15,7 @@ if __name__ == '__main__':
         val = values.pop(0)
         dur = values.pop(0)
         X = [float(values[0]), float(values[1])]
-        print X
+        print(X)
         if (val == 'P'):
             val = branin.branin(X)
             newlines.append(str(val) + " 0 " 

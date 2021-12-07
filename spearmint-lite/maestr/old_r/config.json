@@ -1,0 +1,42 @@
+{
+"L2O":{
+  "name":"L2O",
+  "type":"int",
+  "min":0,
+  "max":719,
+  "size":2
+},
+
+"L1O":{
+  "name":"L1O",
+  "type":"int",
+  "min":0,
+  "max":719,
+  "size":2
+},
+
+"L2P":{
+  "name":"L2P",
+  "type":"int",
+  "min":0,
+  "max":5,
+  "size":2
+},
+
+"L1P":{
+  "name":"L1P",
+  "type":"int",
+  "min":0,
+  "max":5,
+  "size":2
+},
+
+"TILESZL2":{
+  "name":"TILESZL2",
+  "type":"int",
+  "min":8,
+  "max":150,
+  "size":2
+}
+
+}

@@ -1,0 +1,18 @@
+{
+"L2P":{
+  "name":"L2P",
+  "type":"int",
+  "min":0,
+  "max":5,
+  "size":2
+},
+
+"L1P":{
+  "name":"L1P",
+  "type":"int",
+  "min":0,
+  "max":5,
+  "size":2
+}
+
+}

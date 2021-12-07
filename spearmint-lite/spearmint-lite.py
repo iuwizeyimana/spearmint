@@ -96,7 +96,8 @@ def main_controller(options, args):
         sys.exit(-1)
 
     # Load up the chooser module.
-    module  = importlib.import_module('chooser.' + options.chooser_module, package='spearmint')
+   # module  = importlib.import_module('chooser.' + options.chooser_module, package='spearmint')
+    module = importlib.import_module('chooser.SequentialChooser') #, package='spearmint')
     chooser = module.init(expt_dir, options.chooser_args)
 
     # Create the experimental grid
@@ -109,7 +110,7 @@ def main_controller(options, args):
     gmap = GridMap([variables[k] for k in vkeys], options.grid_size)
 
     # Read in parameters and values observed so far
-    for i in xrange(0,options.num_jobs):
+    for i in range(0,options.num_jobs):
 
         res_file = os.path.join(expt_dir, options.results_file)
         if not os.path.exists(res_file):

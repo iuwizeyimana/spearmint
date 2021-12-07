@@ -22,7 +22,8 @@
 import os
 import sys
 import tempfile
-import cPickle
+#import cPickle
+import _pickle as cPickle
 
 import numpy        as np
 import numpy.random as npr
@@ -252,17 +253,17 @@ class GridMap:
         for variable in self.variables:
             #param.name = variable['name']
             if variable['type'] == 'int':
-                for dd in xrange(variable['size']):
+                for dd in range(variable['size']):
                     unit[index] = self._index_unmap(float(v.pop(0)) - variable['min'], (variable['max']-variable['min'])+1)
                     index += 1
 
             elif variable['type'] == 'float':
-                for dd in xrange(variable['size']):
+                for dd in range(variable['size']):
                     unit[index] = (float(v.pop(0)) - variable['min'])/(variable['max']-variable['min'])
                     index += 1
 
             elif variable['type'] == 'enum':
-                for dd in xrange(variable['size']):
+                for dd in range(variable['size']):
                     unit[index] = variable['options'].index(v.pop(0))
                     index += 1
 
@@ -300,13 +301,13 @@ class GridMap:
             param.name = variable['name']
             if variable['type'] == 'int':
                 param.type = 'int'
-                for dd in xrange(variable['size']):
+                for dd in range(variable['size']):
                     param.int_val.append(variable['min'] + self._index_map(u[index], variable['max']-variable['min']+1))
                     index += 1
 
             elif variable['type'] == 'float':
                 param.type = 'float'
-                for dd in xrange(variable['size']):
+                for dd in range(variable['size']):
                     val = variable['min'] + u[index]*(variable['max']-variable['min'])
                     val = variable['min'] if val < variable['min'] else val
                     val = variable['max'] if val > variable['max'] else val
@@ -315,7 +316,7 @@ class GridMap:
 
             elif variable['type'] == 'enum':
                 param.type = 'enum'
-                for dd in xrange(variable['size']):
+                for dd in range(variable['size']):
                     ii = self._index_map(u[index], len(variable['options']))
                     index += 1
                     param.str_val.append(variable['options'][ii])
