@@ -48,7 +48,6 @@ def gen_new_pop (last_pop, delta, sub_accel_num):
 
 def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
   mid = int(sub_accel_num/2)
-
   #check to see if we must generate a new pop, if so generate them and put them in separate files
   if(ctr == 0):
     #1. Generate the populations' parent 
@@ -108,4 +107,19 @@ def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
 
   elif(ctr == 2);
     #get the best population and output it 
-    	
+    file_name = "pop_0.dat"
+    infile = open(file_name, 'r')
+    lines = infile.readlines()
+    infile.close()
+    to_ret = np.array(lines[0])
+    for p in range(1, num_pop):
+      file_name = "pop_" + str(p) + ".dat"
+      infile = open(file_name, 'r')
+      lines = infile.readlines()
+      infile.close()
+      this_pop = np.array(lines[0])
+      if(to_ret[-1] > this_pop[-1]):
+	to_ret = this_pop
+   #write toret to a file
+   np.savetxt("output.txt", to_ret, newline= " ")
+  return 1	  
