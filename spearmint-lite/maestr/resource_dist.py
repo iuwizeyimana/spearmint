@@ -46,3 +46,66 @@ def gen_new_pop (last_pop, delta, sub_accel_num):
 
   return new_pop_1, new_pop_2
 
+def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
+  mid = int(sub_accel_num/2)
+
+  #check to see if we must generate a new pop, if so generate them and put them in separate files
+  if(ctr == 0):
+    #1. Generate the populations' parent 
+    pop_array = np.zeros((num_pop, 3, (sub_accel_num+1))) #the 3 is for 1 parent a 2 children
+    # last number will hold the cost 
+    for l in range(num_pop):
+      pop_ = np.zeros(sub_accel_num)
+      is_not_in_range = 0
+      while(is_not_in_range != 1):
+        is_not_in_range = 1
+        if(l==0):
+          pop_ = np.sort(generate_pop(sub_accel_num, num_pes))
+        else:
+          pop_ = np.sort((generate_pop(sub_accel_num, num_pes))
+          for n in range(l):
+	    for o in range(mid):
+	      if(np.abs(pop_array[n][o] - pop_[o]) < (delta*2)):
+        	is_not_in_range = 0
+		break
+      pop_array[l][0][:-1] = np.array(pop_)
+
+    #2. Generate the children
+    for m in range(num_pop):
+      pop_array[m][1][:-1], pop_array[m][2][:-1] = gen_new_pop(pop_array[m][0][:-1], delta, sub_accel_num)
+
+    #3. write the populations to their respective files
+    for k in range(num_pop):
+      file_name = "pop_" + str(k) + ".dat"
+      np.savetxt(file_name, (pop_array[k][0], pop_array[k][1], pop_array[k][2]), fmt= "%d")
+
+  elif(ctr == 1): 
+    #do greedy across every population
+    for k in range(num_pop):
+      file_name = "pop_" + str(k) + ".dat"
+      infile = open(file_name, 'r')
+      lines = infile.readlines()
+      infile.close()
+      #should have an error check that ensure the line in the files aren't greater than 3
+      parent_cost = lines[0][-1]
+      child1_cost = lines[1][-1]
+      child2_cost = lines[2][-1]
+      #make the population with the lowest cost the new parent
+      new_pop = np.zeros((3, (sub_accel_num+1)))
+      if(parent_cost > child1_cost):
+	if(child1_cost>child2_cost):
+	  new_pop[0] = lines[2]
+	else: 
+	  new_pop[0] = lines[1]
+      elif(parent_cost>child2_cost):
+	new_pop[0] = lines[2]
+      else:
+	new_pop[0] = lines[0]
+      #then get its children
+      new_pop[1][:-1], new_pop[2][:-1] = gen_new_pop(new_pop[0][:-1], delta, sub_accel_num)
+      #write the new pop on the files 
+      np.savetxt(file_name, (new_pop[0], new_pop[1], new_pop[2]), fmt = "%d")
+
+  elif(ctr == 2);
+    #get the best population and output it 
+    	
