@@ -1,3 +1,4 @@
+import argparse
 import numpy as np
 
 def generate_pop (sub_accel_num, num_pes):
@@ -6,7 +7,7 @@ def generate_pop (sub_accel_num, num_pes):
   pop_generated = 0
   while(pop_generated != 1):
         for i in range(sub_accel_num):
-          dtf[i] = np.random.randint(1, (num_pes-1))
+          dtf[i] = np.random.randint(4, (num_pes-1))
         if(np.sum(dtf) == num_pes):
           pop_generated = 1
         #else:
@@ -61,12 +62,12 @@ def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
         if(l==0):
           pop_ = np.sort(generate_pop(sub_accel_num, num_pes))
         else:
-          pop_ = np.sort((generate_pop(sub_accel_num, num_pes))
+          pop_ = np.sort(generate_pop(sub_accel_num, num_pes))
           for n in range(l):
-	    for o in range(mid):
-	      if(np.abs(pop_array[n][o] - pop_[o]) < (delta*2)):
-        	is_not_in_range = 0
-		break
+            for o in range(mid):
+              if(np.abs(pop_array[n][0][o] - pop_[o]) < (delta*2)):
+                is_not_in_range = 0
+                break
       pop_array[l][0][:-1] = np.array(pop_)
 
     #2. Generate the children
@@ -86,26 +87,28 @@ def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
       lines = infile.readlines()
       infile.close()
       #should have an error check that ensure the line in the files aren't greater than 3
-      parent_cost = lines[0][-1]
-      child1_cost = lines[1][-1]
-      child2_cost = lines[2][-1]
+      parent = np.fromstring(lines[0][:-1], dtype = int, sep = ' ')
+      child1 = np.fromstring(lines[1][:-1], dtype = int, sep = ' ')
+      child2 = np.fromstring(lines[2][:-1], dtype = int, sep = ' ')
+
+      #print("parent cost: ", parent[-1], " child1: ", child1[-1], " child2: ", child2[-1])
       #make the population with the lowest cost the new parent
       new_pop = np.zeros((3, (sub_accel_num+1)))
-      if(parent_cost > child1_cost):
-	if(child1_cost>child2_cost):
-	  new_pop[0] = lines[2]
-	else: 
-	  new_pop[0] = lines[1]
-      elif(parent_cost>child2_cost):
-	new_pop[0] = lines[2]
+      if(parent[-1] > child1[-1]):
+        if(child1[-1]>child2[-1]):
+          new_pop[0] = child2
+        else: 
+          new_pop[0] = child1
+      elif(parent[-1]>child2[-1]):
+        new_pop[0] = child2
       else:
-	new_pop[0] = lines[0]
+        new_pop[0] = parent
       #then get its children
       new_pop[1][:-1], new_pop[2][:-1] = gen_new_pop(new_pop[0][:-1], delta, sub_accel_num)
       #write the new pop on the files 
       np.savetxt(file_name, (new_pop[0], new_pop[1], new_pop[2]), fmt = "%d")
 
-  elif(ctr == 2);
+  elif(ctr == 2):
     #get the best population and output it 
     file_name = "pop_0.dat"
     infile = open(file_name, 'r')
@@ -119,7 +122,17 @@ def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
       infile.close()
       this_pop = np.array(lines[0])
       if(to_ret[-1] > this_pop[-1]):
-	to_ret = this_pop
-   #write toret to a file
-   np.savetxt("output.txt", to_ret, newline= " ")
-  return 1	  
+        to_ret = this_pop
+    #write toret to a file
+    np.savetxt("output.txt", to_ret, newline= " ")
+ # return 1	 
+
+if __name__ == '__main__':
+  parser = argparse.ArgumentParser(description='Program input')
+  parser.add_argument('integers', metavar = 'input', type=int, nargs='+')
+  args = parser.parse_args()
+  var = vars(args).get('integers')
+  if(len(var)!=6):
+    print("must have at least 6 arguments")
+  else:
+    greedy_random(var[0], var[1], var[2], var[3], var[4], var[5])
