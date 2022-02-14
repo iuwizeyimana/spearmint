@@ -47,7 +47,7 @@ def gen_new_pop (last_pop, delta, sub_accel_num):
 
   return new_pop_1, new_pop_2
 
-def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
+def greedy_random(sub_accel_num, num_pes, delta, num_pop, ctr=0):
   mid = int(sub_accel_num/2)
   #check to see if we must generate a new pop, if so generate them and put them in separate files
   if(ctr == 0):
@@ -114,13 +114,13 @@ def greedy_random(sub_accel_num, num_pes, delta, num_pop, pop_samples, ctr=0):
     infile = open(file_name, 'r')
     lines = infile.readlines()
     infile.close()
-    to_ret = np.array(lines[0])
+    to_ret = np.array(lines[0][:-1], dtype = int, sep = ' ')
     for p in range(1, num_pop):
       file_name = "pop_" + str(p) + ".dat"
       infile = open(file_name, 'r')
       lines = infile.readlines()
       infile.close()
-      this_pop = np.array(lines[0])
+      this_pop = np.array(lines[0][:-1], dtype = int, sep = ' ')
       if(to_ret[-1] > this_pop[-1]):
         to_ret = this_pop
     #write toret to a file
@@ -132,7 +132,7 @@ if __name__ == '__main__':
   parser.add_argument('integers', metavar = 'input', type=int, nargs='+')
   args = parser.parse_args()
   var = vars(args).get('integers')
-  if(len(var)!=6):
-    print("must have at least 6 arguments")
+  if(len(var)!=5):
+    print("must have 5 arguments")
   else:
-    greedy_random(var[0], var[1], var[2], var[3], var[4], var[5])
+    greedy_random(var[0], var[1], var[2], var[3], var[4])
