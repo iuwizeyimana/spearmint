@@ -7,7 +7,7 @@ def generate_pop (sub_accel_num, num_pes):
   pop_generated = 0
   while(pop_generated != 1):
         for i in range(sub_accel_num):
-          dtf[i] = np.random.randint(4, (num_pes-1))
+          dtf[i] = np.random.randint(1024, (num_pes-1024)) #To-Do change the hard coded 1024
         if(np.sum(dtf) == num_pes):
           pop_generated = 1
         #else:
