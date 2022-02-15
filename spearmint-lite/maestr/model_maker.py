@@ -8,7 +8,7 @@ if __name__ == '__main__':
 	text_file.close()
 	#make the letters array
 	letters = "KCRSXY"
-	resfile = open('results.dat','r')
+	resfile = open('results.dat','r') #to-do, change this to be an input 
 	r = resfile.readlines()
 	resfile.close()
 	line = r[-1]

@@ -27,4 +27,5 @@ if __name__ == '__main__':
 
 	outfile.close() 
 	
-	
+#to-do 1-> change results.dat to input file
+#      2-> hold the current best edp in an input file as well	
