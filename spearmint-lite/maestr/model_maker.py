@@ -2,13 +2,18 @@ from dtf_const import dtf_const
 
 if __name__ == '__main__':
 
+	parser = argparse.ArgumentParser(description = "results file")
+	parser.add_argument('res_file', metavar = 'input', type= "string", nargs = 1)
+	args = parser.parse_args()
+	var = vars(args).get('res_file')
+
 	#1. create the dataflow from results.dat 
 	text_file = open("order.txt", "r")
 	order_array = text_file.readlines()
 	text_file.close()
 	#make the letters array
 	letters = "KCRSXY"
-	resfile = open('results.dat','r') #to-do, change this to be an input 
+	resfile = open(var,'r') 
 	r = resfile.readlines()
 	resfile.close()
 	line = r[-1]
