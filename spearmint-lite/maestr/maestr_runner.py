@@ -3,9 +3,9 @@ import numpy as np
 
 if __name__ == '__main__':
 	parser = argparse.ArgumentParser(description = "results file")
-	parser.add_argument('res_file', metavar='input', type="string", nargs=1)
+	parser.add_argument('res_file', metavar='input', type=str, nargs=1)
 	args = parser.parse_args()
-	var = vars(args).get('res_file')
+	var = args.res_file[0]
 
 	resfile = open(var, 'r')
 	lines = resfile.readlines()

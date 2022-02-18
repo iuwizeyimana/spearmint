@@ -1,9 +1,9 @@
 if __name__ == "__main__":
 	# open the pop file
 	parser = argparse.ArgumentParser(description = "pop file parser")	
-	parser.add_argument('pop_file', metavar = 'input', type="string", nargs=1, help="file with hw distr")
+	parser.add_argument('pop_file', metavar = 'input', type=str, nargs=1, help="file with hw distr")
 	args = parser.parse_args()
-	var = vars(args).get('pop_file')
+	var = args.pop_file[0]
 	infile = open(var, 'r')	
 	lines = infile.readlines()
 	infile.close()
